@@ -30,11 +30,15 @@ const DUMMY_EXPENSES = [
   },
 ];
 
-function ExpensesOutput({ expenses, expensesPeriod }) {
+function ExpensesOutput({ expenses, expensesPeriod, fallBackText }) {
+  let content = <Text style={styles.infoText}>{fallBackText}</Text>;
+  if (expenses.length > 0) {
+    content = <ExpensesList expenses={expenses} />;
+  }
   return (
     <View style={styles.container}>
-      <ExpensesSummary expenses={DUMMY_EXPENSES} periodName={expensesPeriod} />
-      <ExpensesList expenses={DUMMY_EXPENSES} />
+      <ExpensesSummary expenses={expenses} periodName={expensesPeriod} />
+      {content}
     </View>
   );
 }
@@ -46,5 +50,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     backgroundColor: GlobalStyles.colors.primary700,
+  },
+  infoText: {
+    color: "white",
+    textAlign: "center",
+    fontSize: 16,
+    marginTop: 32,
   },
 });
